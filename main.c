@@ -28,10 +28,13 @@ int curve(int n)
 // Updates the power of the wheels
 void updateOmni()
 {
-    int * coords = modify(vexRT[Ch4], vexRT[Ch3], vexRT[Ch1]);
+    /*int * coords = modify(vexRT[Ch4], vexRT[Ch3], vexRT[Ch1]);
     int x = coords[0];
     int y = coords[1];
-    int z = coords[2];
+    int z = coords[2];*/
+    int x = vexRT[Ch4];
+    int y = vexRT[Ch3];
+    int z = vexRT[Ch1];
     motor[port2] = curve(x+y+z);
     motor[port3] = curve(x-y+z);
     motor[port4] = curve(-x-y+z);
