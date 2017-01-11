@@ -1,14 +1,3 @@
-// Modifies the xyz vectors so that x+y+z <= 127 to make for more accurate controls
-int * modify(int x, int y, int z) {
-    float hypo = sqrt(pow(x, 2) + pow(y, 2));
-    float rotPer = z/127.0;
-    int nums[3];
-    nums[0] = (1 - rotPer) * x * hypo/127;  // formula for x
-    nums[1] = (1 - rotPer) * y * hypo/127;  // formula for y
-    nums[2] = rotPer * z;
-    return nums;
-}
-
 // Limits n to between -limit and limit
 int lim(int n, int limit)
 {
@@ -28,10 +17,6 @@ int curve(int n)
 // Updates the power of the wheels
 void updateOmni()
 {
-    /*int * coords = modify(vexRT[Ch4], vexRT[Ch3], vexRT[Ch1]);
-    int x = coords[0];
-    int y = coords[1];
-    int z = coords[2];*/
     int x = vexRT[Ch4];
     int y = vexRT[Ch3];
     int z = vexRT[Ch1];
@@ -48,16 +33,3 @@ task main()
         updateOmni();
     }
 }
-/*
-0/1   -1  1  1 -1		-1  1  1 -1
-1/1   -1  0  1  0		-2  0  2  0
-1/0   -1 -1  1  1		-1 -1  1  1
-1/-1   0 -1  0  1		 0 -2  0  1
-0/-1   1 -1 -1  1
--1/-1  1  0 -1  0
--1/0   1  1 -1 -1
--1/1   0  1  0 -1
-0/0    0  0  0  0
-
--x-y  -x+y  x+y  x-y
-/(|x|+|y|)*/
