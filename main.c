@@ -39,35 +39,36 @@ if(floor(A/2)):
 
 multiply all by d
 */
-int * getOmniPowers(int x, int y, int z) {
+int * getOmniPowers(int x, int y, int z)
+{
 		float rotPer = 1.0-abs(z)/127.0;
     int d = curve(sqrt(pow(x, 2) + pow(y, 2)));
     float A = (1.27323954474 * atan2(y, x)+8)%8;
     int powers[4];
     switch(floor(A/2)) {
-      case 0:
-        powers[0] = z+rotPer*-d;
-        powers[1] = z+rotPer*d*(A-1);
-        powers[2] = z+rotPer*d;
-        powers[3] = z+rotPer*d*(1-A);
-        break;
-      case 1:
-        powers[0] = z+rotPer*d*(A-3);
-        powers[1] = z+rotPer*d;
-        powers[2] = z+rotPer*d*(3-A);
-        powers[3] = z+rotPer*-d;
-        break;
-      case 2:
-        powers[0] = z+rotPer*d;
-        powers[1] = z+rotPer*d*(5-A);
-        powers[2] = z+rotPer*-d;
-        powers[3] = z+rotPer*d*(A-5);
-        break;
-      case 3:
-        powers[0] = z+rotPer*d*(7-A);
-        powers[1] = z+rotPer*-d;
-        powers[2] = z+rotPer*d*(A-7);
-        powers[3] = z+rotPer*d;
+        case 0:
+            powers[0] = z+rotPer*-d;
+            powers[1] = z+rotPer*d*(A-1);
+            powers[2] = z+rotPer*d;
+            powers[3] = z+rotPer*d*(1-A);
+            break;
+        case 1:
+            powers[0] = z+rotPer*d*(A-3);
+            powers[1] = z+rotPer*d;
+            powers[2] = z+rotPer*d*(3-A);
+            powers[3] = z+rotPer*-d;
+            break;
+        case 2:
+            powers[0] = z+rotPer*d;
+            powers[1] = z+rotPer*d*(5-A);
+            powers[2] = z+rotPer*-d;
+            powers[3] = z+rotPer*d*(A-5);
+            break;
+        case 3:
+            powers[0] = z+rotPer*d*(7-A);
+            powers[1] = z+rotPer*-d;
+            powers[2] = z+rotPer*d*(A-7);
+            powers[3] = z+rotPer*d;
     }
     return powers;
 }
@@ -93,7 +94,8 @@ void updateOmni()
 bool open = false;
 
 // Opens the claw
-void openClaw() {
+void openClaw()
+{
     // Check if claw is already open
     if(!open) {
         motor[port6] = 35;
@@ -106,7 +108,8 @@ void openClaw() {
 }
 
 // Closes the claw
-void closeClaw() {
+void closeClaw()
+{
     // Check if claw is already closed
     if(open) {
         motor[port6] = -35;
@@ -119,7 +122,8 @@ void closeClaw() {
 }
 
 // Updates claw's position
-void updateClaw() {
+void updateClaw()
+{
     if(vexRT[Btn5U] == 1) // If upper Z button down
         openClaw();
     else if(vexRT[Btn5D] == 1) // If lower Z button down
