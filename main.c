@@ -87,6 +87,14 @@ void updateOmni()
 //		ARM CONTROL
 //**********************************
 
+void updateArm()
+{
+    int power = curve(vexRT[Ch2]);
+    if(power < 0) power = power/2;
+    motor[leftArm] = power;
+    motor[rightArm] = -power;
+}
+
 //**********************************
 //		CLAW CONTROL
 //**********************************
@@ -137,6 +145,7 @@ task main()
 {
     while(true) {
         updateOmni();
+        updateArm();
         updateClaw();
     }
 }
