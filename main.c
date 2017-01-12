@@ -89,6 +89,43 @@ void updateOmni()
 //**********************************
 //		CLAW CONTROL
 //**********************************
+
+bool open = false;
+
+// Opens the claw
+void openClaw() {
+    // Check if claw is already open
+    if(!open) {
+        motor[port6] = 35;
+        //wait 1/2 of a second (value will probably turn into a constant)
+        sleep(500);
+        //stop motor
+        motor[port6] = 0;
+        open = true;
+    }
+}
+
+// Closes the claw
+void closeClaw() {
+    // Check if claw is already closed
+    if(open) {
+        motor[port6] = -35;
+        //wait 3? (value will probably turn into a constant) seconds then stop
+        sleep(500);
+        //stop motor
+        motor[port6] = 0;
+        open = false;
+    }
+}
+
+// Updates claw's position
+void updateClaw() {
+    if(vexRT[Btn5U] == 1) // If upper Z button down
+        openClaw();
+    else if(vexRT[Btn5D] == 1) // If lower Z button down
+        closeClaw();
+}
+
 //**********************************
 //		MAIN LOOP
 //**********************************
@@ -96,5 +133,6 @@ task main()
 {
     while(true) {
         updateOmni();
+        updateClaw();
     }
 }
