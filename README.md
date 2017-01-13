@@ -1,6 +1,16 @@
 # VEX
 Code for TWP Robotics VEX competition bots.
 
+Robot Setup
+-----------
+Checklist for robot before using:
+1. Claw should be closed
+2. There is no 2 yet...*yet*.
+
+Use
+---
+Compile with ROBOTC editor to robot, it'll start running main() automatically and on every startup afterwards.
+
 Developers
 ----------
 All changes should be made to main.c in the dev branch.
