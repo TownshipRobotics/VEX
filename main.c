@@ -112,6 +112,9 @@ void updateArm()
     // due to gravity so half speed going down
     if(power < 0) power = power/2;
 
+    // Power to hold arm up when stopped
+    if(abs(power) < 5) power = 10;
+
     // Set motors to proper powers
     motor[armLeft] = -power;
     motor[armRight] = power;
