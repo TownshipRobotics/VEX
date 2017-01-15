@@ -146,10 +146,10 @@ void closeClaw()
     // Check if claw is already closed
     if(open) {
         motor[claw] = -35;
-        //wait 3? (value will probably turn into a constant) seconds then stop
+        //wait 1/2 second then stop
         sleep(600);
-        //stop motor
-        motor[claw] = 0;
+        //Leave motor running slightly so as to maintain pressure on claw
+        motor[claw] = -10;
         open = false;
     }
 }
