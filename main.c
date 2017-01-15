@@ -27,8 +27,8 @@ int lim(int n, int limit)
 // (It graphs like y = x/2+x^3)
 int curve(int n)
 {
-    float l = lim(l, 127);
-    return l*(0.5+pow(l, 2)/32258.619);
+    float l = lim(n, 127);
+    return (int) (l*(0.5+pow(l, 2)/32258.619)+0.5);
 }
 
 // Takes xyz vectors and creates the correct omni powers for it
