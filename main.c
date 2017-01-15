@@ -107,11 +107,11 @@ void openClaw()
 {
     // Check if claw is already open
     if(!open) {
-        motor[port6] = 35;
+        motor[claw] = 35;
         //wait 1/2 of a second (value will probably turn into a constant)
         sleep(500);
         //stop motor
-        motor[port6] = 0;
+        motor[claw] = 0;
         open = true;
     }
 }
@@ -121,11 +121,11 @@ void closeClaw()
 {
     // Check if claw is already closed
     if(open) {
-        motor[port6] = -35;
+        motor[claw] = -35;
         //wait 3? (value will probably turn into a constant) seconds then stop
         sleep(500);
         //stop motor
-        motor[port6] = 0;
+        motor[claw] = 0;
         open = false;
     }
 }
