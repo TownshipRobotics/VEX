@@ -104,8 +104,10 @@ void updateArm()
     // Negative powers already move quickly
     // due to gravity so half speed going down
     if(power < 0) power = power/2;
-    motor[armLeft] = power;
-    motor[armRight] = -power;
+
+    // Set motors to proper powers
+    motor[armLeft] = -power;
+    motor[armRight] = power;
 }
 
 //**********************************
