@@ -43,8 +43,15 @@ multiply all by d
 int * getOmniPowers(int x, int y, int z)
 {
 		float rotPer = 1.0-abs(z)/127.0;
+    // The "distance" of joystick from center 0 <= d < 127
     int d = curve(sqrt(pow(x, 2) + pow(y, 2)));
+
+    // The angle 0 <= A < 8 of the joystick in relation to origin
+    // A = 0 is to the right
     float A = (1.27323954474 * atan2(y, x)+8)%8;
+
+    // Too long to explain in a comment >.>
+    // (Ask me if you want an explanation)
     int powers[4];
     switch(floor(A/2)) {
         case 0:
@@ -71,6 +78,7 @@ int * getOmniPowers(int x, int y, int z)
             powers[2] = z+rotPer*d*(A-7);
             powers[3] = z+rotPer*d;
     }
+
     return powers;
 }
 
@@ -90,7 +98,11 @@ void updateOmni()
 
 void updateArm()
 {
+    // Gets the power from joystick & curves it
     int power = curve(vexRT[Ch2]);
+
+    // Negative powers already move quickly
+    // due to gravity so half speed going down
     if(power < 0) power = power/2;
     motor[armLeft] = power;
     motor[armRight] = -power;
@@ -100,6 +112,9 @@ void updateArm()
 //		CLAW CONTROL
 //**********************************
 
+// Keeps track of state of the claw
+// (Make sure to start the bot with
+//       the claw closed!)
 bool open = false;
 
 // Opens the claw
