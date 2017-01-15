@@ -44,8 +44,9 @@ multiply all by d
 */
 int * getOmniPowers(int x, int y, int z)
 {
+    z = curve(z);
 		// The percent the bot is rotating
-    float rotPer = 1.0-abs(curve(z))/127.0;
+    float rotPer = 1.0-abs(z)/127.0;
 
     // The "distance" of joystick from center 0 <= d < 127
     int d = curve(sqrt(pow(x, 2) + pow(y, 2)));
