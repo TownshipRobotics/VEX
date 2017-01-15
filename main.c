@@ -138,7 +138,7 @@ void closeClaw()
     if(open) {
         motor[claw] = -35;
         //wait 3? (value will probably turn into a constant) seconds then stop
-        sleep(500);
+        sleep(600);
         //stop motor
         motor[claw] = 0;
         open = false;
