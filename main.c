@@ -22,11 +22,13 @@ int lim(int n, int limit)
 }
 
 // Makes values closer to 0 more sensitive:
-// 0 -> 0; 127 -> 127; 64 -> 64^3/127^2 = 16.25
+// 0 -> 0; 127 -> 127; 64 -> 40
 // As n -> 127, returns an int that increases exponentially
+// (It graphs like y = x/2+x^3)
 int curve(int n)
 {
-    return pow(lim(n, 127), 3)/16129;
+    float l = lim(l, 127);
+    return l*(0.5+pow(l, 2)/32258.619);
 }
 
 // Takes xyz vectors and creates the correct omni powers for it
