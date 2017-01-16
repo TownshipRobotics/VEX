@@ -44,12 +44,11 @@ multiply all by d
 */
 int * getOmniPowers(int x, int y, int z)
 {
-    z = curve(z);
 		// The percent the bot is rotating
     float rotPer = 1.0-abs(z)/127.0;
 
     // The "distance" of joystick from center 0 <= d < 127
-    int d = curve(sqrt(pow(x, 2) + pow(y, 2)));
+    int d = sqrt(pow(x, 2) + pow(y, 2));
 
     // The angle 0 <= A < 8 of the joystick in relation to origin
     // A = 0 is to the right
@@ -91,7 +90,7 @@ int * getOmniPowers(int x, int y, int z)
 void updateOmni()
 {
     // Array with the powers for each motor
-    int * powers = getOmniPowers(-vexRT[Ch4], vexRT[Ch3], vexRT[Ch1]);
+    int * powers = getOmniPowers(curve(-vexRT[Ch4]), curve(vexRT[Ch3]), curve(vexRT[Ch1]));
     // Set each motor's power correspondingly
     motor[frontLeft] = powers[0];
     motor[frontRight] = powers[1];
