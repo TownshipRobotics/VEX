@@ -166,10 +166,25 @@ void updateClaw()
 }
 
 //**********************************
+//		AUTOMATION
+//**********************************
+void autoPeriod()
+{
+    // Do things
+}
+
+//**********************************
 //		MAIN LOOP
 //**********************************
 task main()
 {
+    // Wait for button 8R to be pressed
+    while(vexRT[Btn8R] == 0);
+
+    // Run autoPeriod()
+    autoPeriod();
+
+    // Loop forever updating controls
     while(true) {
         updateOmni();
         updateArm();
