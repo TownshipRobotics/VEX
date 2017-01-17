@@ -126,43 +126,16 @@ void updateArm()
 // Keeps track of state of the claw
 // (Make sure to start the bot with
 //       the claw closed!)
-bool open = false;
-
-// Opens the claw
-void openClaw()
-{
-    // Check if claw is already open
-    if(!open) {
-        motor[claw] = 35;
-        //wait 1/2 of a second (value will probably turn into a constant)
-        sleep(500);
-        //stop motor
-        motor[claw] = 0;
-        open = true;
-    }
-}
-
-// Closes the claw
-void closeClaw()
-{
-    // Check if claw is already closed
-    if(open) {
-        motor[claw] = -35;
-        //wait 1/2 second then stop
-        sleep(600);
-        //Leave motor running slightly so as to maintain pressure on claw
-        motor[claw] = -10;
-        open = false;
-    }
-}
 
 // Updates claw's position
 void updateClaw()
 {
     if(vexRT[Btn5U] == 1) // If upper Z button down
-        openClaw();
+        motor[claw] = 35;
     else if(vexRT[Btn5D] == 1) // If lower Z button down
-        closeClaw();
+        motor[claw] = -35;
+    else
+    		motor[claw] = 0;
 }
 
 //**********************************
