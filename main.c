@@ -86,16 +86,23 @@ int * getOmniPowers(int x, int y, int z)
     return powers;
 }
 
-// Updates the power of the wheels
-void updateOmni()
+// Sets the powers of each of the wheels for the x, y, z numbers specified
+void setOmniPowers(int x, int y, int z)
 {
     // Array with the powers for each motor
-    int * powers = getOmniPowers(curve(-vexRT[Ch4]), curve(vexRT[Ch3]), curve(vexRT[Ch1]));
+    int * powers = getOmniPowers(x, y, z);
     // Set each motor's power correspondingly
     motor[frontLeft] = powers[0];
     motor[frontRight] = powers[1];
     motor[backRight] = powers[2];
     motor[backLeft] = powers[3];
+}
+
+// Updates the power of the wheels
+void updateOmni()
+{
+    // Update the omniwheel powers to the vexRT powers
+    setOmniPowers(curve(-vexRT[Ch4]), curve(vexRT[Ch3]), curve(vexRT[Ch1]));
 }
 
 //**********************************
