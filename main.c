@@ -130,6 +130,28 @@ void updateArm()
 //		CLAW CONTROL
 //**********************************
 
+
+// Opens the claw
+void openClaw()
+{
+	motor[claw] = 35;
+	//wait 1/2 of a second (value will probably turn into a constant)
+	sleep(500);
+ 	//stop motor
+  motor[claw] = 0;
+}
+
+// Closes the claw
+void closeClaw()
+{
+	motor[claw] = -35;
+	//wait 1/2 second then stop
+	sleep(600);
+ 	//Leave motor running slightly so as to maintain pressure on claw
+	motor[claw] = -10;
+	open = false;
+}
+
 // Keeps track of state of the claw
 // (Make sure to start the bot with
 //       the claw closed!)
@@ -148,9 +170,47 @@ void updateClaw()
 //**********************************
 //		AUTOMATION
 //**********************************
-void autoPeriod()
+void rightAutoPeriod()
 {
-    // Do things
+		bool open = false;
+    //until 15 seconds pass
+    while(time1[T1] <= 15000){
+    	setOmniPowers(0, 100, 0);
+    	sleep(1500);
+    	setOmniPowers(0,0,0);
+    	// Raise arm
+    motor[armLeft] = -50;
+    motor[armRight] = 50;
+    // wait for 1.5 seconds
+    sleep(1500);
+    // stop motors
+    motor[armLeft] = 0;
+    motor[armRight] = 0;
+
+    // open claw
+    motor[claw] = 35;
+    // wait for 1.5 seconds
+    sleep(1500);
+    // stop motors
+    motor[claw] = 0;
+
+
+    	//until touch sensor is pressed
+    	if(untilTouch(1)){
+    		//move backwards and rotate 90 degrees and move forward
+    	}
+    	//find nearest object
+    	if(untilSonarLessThan(647, 1)){
+    		//move forward
+    	}
+    	else{
+    		//rotate 90 degrees and move forward
+    	}
+  	}
+}
+void leftAutoPeriod()
+{
+
 }
 
 //**********************************
@@ -159,7 +219,15 @@ void autoPeriod()
 task main()
 {
     // Wait for button 8R to be pressed
-    while(vexRT[Btn8R] == 0);
+    while(true) {
+        if(vexRT[Btn8R] == 1) {
+            rightAutoPeriod();
+            break;
+        } else if(vexRT[Btn7L] == 1) {
+            leftAutoPeriod();
+            break;
+        } else if(
+    }
 
     // Run autoPeriod()
     autoPeriod();
