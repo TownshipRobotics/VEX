@@ -108,6 +108,12 @@ void updateOmni()
 //**********************************
 //		ARM CONTROL
 //**********************************
+//move arm up or down with speed sent through the
+void raiseArm(int power)
+{
+		motor[armLeft] = -power;
+  	motor[armRight] = power;
+}
 
 void updateArm()
 {
@@ -116,14 +122,15 @@ void updateArm()
 
     // Negative powers already move quickly
     // due to gravity so half speed going down
-    if(power < 0) power = power/2;
+    if(power < 0)
+    		power = power/2;
 
     // Power to hold arm up when stopped
-    if(abs(power) < 5) power = 10;
+    if(abs(power) < 5)
+    		power = 10;
 
     // Set motors to proper powers
-    motor[armLeft] = -power;
-    motor[armRight] = power;
+    raiseArm(power);
 }
 
 //**********************************
@@ -134,27 +141,22 @@ void updateArm()
 // Opens the claw
 void openClaw()
 {
-	motor[claw] = 35;
-	//wait 1/2 of a second (value will probably turn into a constant)
-	sleep(500);
- 	//stop motor
-  motor[claw] = 0;
+		motor[claw] = 35;
+		//wait 1/2 of a second (value will probably turn into a constant)
+		sleep(500);
+ 		//stop motor
+  	motor[claw] = 0;
 }
 
 // Closes the claw
 void closeClaw()
 {
-	motor[claw] = -35;
-	//wait 1/2 second then stop
-	sleep(600);
- 	//Leave motor running slightly so as to maintain pressure on claw
-	motor[claw] = -10;
-	open = false;
+		motor[claw] = -35;
+		//wait 1/2 second then stop
+		sleep(600);
+ 		//Leave motor running slightly so as to maintain pressure on claw
+		motor[claw] = -10;
 }
-
-// Keeps track of state of the claw
-// (Make sure to start the bot with
-//       the claw closed!)
 
 // Updates claw's position
 void updateClaw()
@@ -170,47 +172,129 @@ void updateClaw()
 //**********************************
 //		AUTOMATION
 //**********************************
+
+// autonomous code for right side of arena
 void rightAutoPeriod()
 {
-		bool open = false;
-    //until 15 seconds pass
-    while(time1[T1] <= 15000){
-    	setOmniPowers(0, 100, 0);
-    	sleep(1500);
-    	setOmniPowers(0,0,0);
-    	// Raise arm
-    motor[armLeft] = -50;
-    motor[armRight] = 50;
-    // wait for 1.5 seconds
-    sleep(1500);
+    //move to right jack
+    setOmniPowers(0, 0, medium);
+    openClaw();
+    setOmniPowers(0, medium, 0);
+    sleep(ninety);
+
+    //grab jack
+    closeClaw();
+
+    // Raise arm
+    raiseArm(medium);
+    // wait
+    sleep(ninety);
     // stop motors
-    motor[armLeft] = 0;
-    motor[armRight] = 0;
+    raiseArm(0);
 
-    // open claw
-    motor[claw] = 35;
-    // wait for 1.5 seconds
+    //move to wall
+    setOmniPowers(0, 0, -medium);
+    sleep(ninety);
+    setOmniPowers(0, fast, 0);
     sleep(1500);
-    // stop motors
-    motor[claw] = 0;
+    setOmniPowers(0,0,0);
 
+    //drop jack
+    openClaw();
 
-    	//until touch sensor is pressed
-    	if(untilTouch(1)){
-    		//move backwards and rotate 90 degrees and move forward
-    	}
-    	//find nearest object
-    	if(untilSonarLessThan(647, 1)){
-    		//move forward
-    	}
-    	else{
-    		//rotate 90 degrees and move forward
-    	}
-  	}
+		//knock jacks off of the wall
+    setOmniPowers(0, -slow, 0);
+    sleep(100);
+    setOmniPowers(10, 0, 0);
+    knockJacksOff();
+
+    //go to jack near where robot started
+    setOmniPowers(0, 0, -medium);
+    sleep(uTurn);
+    setOmniPowers(0, fast, 0);
+    sleep(1000)
+    setOmniPowers(0, 0, 0);
+
+    //lower arm
+    raiseArm(-medium);
+    sleep(ninety);
+
+    //pick up jack
+    closeClaw();
+    raiseArm(medium);
+    sleep(ninety);
+
+    //go back to wall
+    setOmniPowers(0, 0, medium);
+    sleep(uTurn);
+    setOmniPowers(0, fast, 0);
+    sleep(1500);
+    setOmniPowers(0, 0, 0);
+
+    //throw jack on opposite side of the wall
+    openClaw();
 }
+
+// autonomous code for left side of arena
 void leftAutoPeriod()
 {
+		//move to left jack
+    setOmniPowers(0, 0, -medium);
+    openClaw();
+    setOmniPowers(0, fast, 0);
+    sleep(ninety);
 
+    //grab jack
+    closeClaw();
+
+    // Raise arm
+    raiseArm(medium);
+    // wait
+    sleep(125);
+    // stop motors
+    raiseArm(0);
+
+    //move to wall
+    setOmniPowers(0, 0, medium);
+    sleep(ninety);
+    setOmniPowers(0, fast, 0);
+    sleep(1500);
+    setOmniPowers(0, 0, 0);
+
+    //drop jack
+    openClaw();
+
+		//knock jacks off of the wall
+    setOmniPowers(0, -slow, 0);
+    sleep(100);
+    setOmniPowers(verySlow, 0, 0);
+    knockJacksOff();
+
+    //go to jack near where robot started
+    setOmniPowers(0, 0, medium);
+    sleep(uTurn);
+    setOmniPowers(0, fast, 0);
+    sleep(1000)
+    setOmniPowers(0, 0, 0);
+
+    //lower arm
+    raiseArm(-medium);
+    sleep(ninety);
+
+    //pick up jack
+    closeClaw();
+    raiseArm(medium);
+    sleep(ninety);
+
+    //go back to wall
+    setOmniPowers(0, 0, medium);
+    sleep(uTurn);
+    setOmniPowers(0, fast, 0);
+    sleep(1500);
+    setOmniPowers(0, 0, 0);
+
+    //throw jack on opposite side of the wall
+		openClaw();
 }
 
 //**********************************
@@ -218,24 +302,27 @@ void leftAutoPeriod()
 //**********************************
 task main()
 {
-    // Wait for button 8R to be pressed
-    while(true) {
-        if(vexRT[Btn8R] == 1) {
-            rightAutoPeriod();
-            break;
-        } else if(vexRT[Btn7L] == 1) {
-            leftAutoPeriod();
-            break;
-        } else if(
-    }
+		//speed variables
+		int verySlow = 10;
+		int slow = 30;
+		int medium = 50;
+		int fast = 100;
+		//wait variables
+		int ninety = 125;
+		int uTurn = 250;
 
-    // Run autoPeriod()
-    autoPeriod();
-
-    // Loop forever updating controls
-    while(true) {
-        updateOmni();
-        updateArm();
-        updateClaw();
-    }
+  	if(vexRT[Btn7R] == 1) {
+    		rightAutoPeriod();
+  	}
+  	else if(vexRT[Btn7L] == 1) {
+    		leftAutoPeriod();
+  	}
+  	else if(vexRT[Btn8L] == 1)
+    		// Loop forever updating controls
+    		while(true) {
+      			updateOmni();
+      			updateArm();
+    				updateClaw();
+  			}
+		}
 }
