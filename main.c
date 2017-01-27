@@ -245,18 +245,20 @@ void leftAutoPeriod()
 //**********************************
 task main()
 {
+    while(vexRT[Btn7R] == 0 &&
+          vexRT[Btn7L] == 0 &&
+          vexRT[Btn8L] == 0);
+
   	if(vexRT[Btn7R] == 1) {
-    		rightAutoPeriod();
+        rightAutoPeriod();
+  	} else if(vexRT[Btn7L] == 1) {
+        leftAutoPeriod();
   	}
-  	else if(vexRT[Btn7L] == 1) {
-    		leftAutoPeriod();
-  	}
-  	else if(vexRT[Btn8L] == 1) {
-    		// Loop forever updating controls
-    		while(true) {
-      			updateOmni();
-      			updateArm();
-    				updateClaw();
-  			}
-		}
+
+    // Loop forever updating controls
+    while(true) {
+        updateOmni();
+        updateArm();
+        updateClaw();
+    }
 }
