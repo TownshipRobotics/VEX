@@ -1,3 +1,4 @@
+#pragma config(Sensor, in1,    pot,            sensorPotentiometer)
 #pragma config(Motor,  port1,           armLeft,       tmotorVex393_HBridge, openLoop)
 #pragma config(Motor,  port2,           frontRight,    tmotorServoContinuousRotation, openLoop)
 #pragma config(Motor,  port3,           frontLeft,     tmotorServoContinuousRotation, openLoop)
@@ -118,16 +119,13 @@ void raiseArm(int power)
 void updateArm()
 {
     // Gets the power from joystick & curves it
-    int power = curve(vexRT[Ch2]);
+    int power = 0;
 
-    // Negative powers already move quickly
-    // due to gravity so half speed going down
-    if(power < 0)
-    		power = power/2;
+    if(vexRT[Btn6D] == 1) power += 64;
+    if(vexRT[Btn6U] == 1) power += -64;
 
-    // Power to hold arm up when stopped
-    if(abs(power) < 5)
-    		power = 10;
+    // Compensate for gravity using potentiometer readings
+    power += SensorValue[pot]/128-16;
 
     // Set motors to proper powers
     raiseArm(power);
