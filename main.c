@@ -115,8 +115,8 @@ void updateArm()
     // Gets the power from joystick & curves it
     int power = 0;
 
-    if(vexRT[Btn5D] == 1) power += 64;
-    if(vexRT[Btn5U] == 1) power += -64;
+    if(vexRT[Btn6D] == 1) power += 64;
+    if(vexRT[Btn6U] == 1) power += -64;
 
     // Compensate for gravity using potentiometer readings
     power += SensorValue[pot]/128-16;
