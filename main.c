@@ -16,8 +16,8 @@ int slow = 30;
 int medium = 50;
 int fast = 100;
 //wait variables
-int normal = 125;
-int uTurn = 250;
+int normal = 200;
+int uTurn = 400;
 
 //**********************************
 //		OMNIWHEEL CONTROL
@@ -177,19 +177,41 @@ void updateClaw()
 //knock the jacks off of the wall
 void knockJacksOff()
 {
-		while(time1[T1] < 3000){
-				raiseArm(slow);
-				sleep(100);
-				raiseArm(-slow);
-				sleep(100);
-		}
+    for(int i = 0; i < 3; i++) {
+		    raiseArm(medium);
+		    sleep(800);
+		    raiseArm(-medium);
+		    sleep(400);
+		    raiseArm(0);
+        setOmniPowers(medium, 0, 0);
+        setOmniPowers(0, 0, 0);
+	  }
 }
 
 // autonomous code for right side of arena
 void rightAutoPeriod()
 {
-    // Raise arm
+    // Go forward to push jack under wall
+    setOmniPowers(0, fast, 0);
+    sleep(2000);
+    setOmniPowers(0, 0, 0);
+    sleep(100);
+    // Go backwards to give robot some space
+    setOmniPowers(0, -medium, 0);
+    sleep(500);
+    // Turn 180
+    setOmniPowers(0, 0, medium);
+    sleep(1100);
+    setOmniPowers(0, 0, 0);
+    // Raise arm to knock off jack
     raiseArm(medium);
+    sleep(3500);
+    raiseArm(10);
+
+
+    /*
+    // Raise arm
+    raiseArm(fast);
     // wait
     sleep(normal);
     // stop motors
@@ -200,23 +222,36 @@ void rightAutoPeriod()
     sleep(1500);
     setOmniPowers(0,0,0);
 
-    //drop jack
-    setOmniPowers(0, 0, medium);
-    sleep(uTurn);
-    openClaw();
-
 		//knock jacks off of the wall
-    setOmniPowers(0, -slow, 0);
-    sleep(100);
-    setOmniPowers(verySlow, 0, 0);
-    knockJacksOff();
+    setOmniPowers(0, fast, 0);
+    sleep(200);
+    setOmniPowers(0, 0, 0);
+    knockJacksOff();*/
 }
 
 // autonomous code for left side of arena
 void leftAutoPeriod()
 {
-    // Raise arm
+    // Go forward to push jack under wall
+    setOmniPowers(0, fast, 0);
+    sleep(2000);
+    setOmniPowers(0, 0, 0);
+    sleep(100);
+    // Go backwards to give robot some space
+    setOmniPowers(0, -medium, 0);
+    sleep(500);
+    // Turn 180
+    setOmniPowers(0, 0, medium);
+    sleep(1100);
+    setOmniPowers(0, 0, 0);
+    // Raise arm to knock off jack
     raiseArm(medium);
+    sleep(3500);
+    raiseArm(10);
+
+    /*
+    // Raise arm
+    raiseArm(fast);
     // wait
     sleep(normal);
     // stop motors
@@ -233,10 +268,10 @@ void leftAutoPeriod()
     openClaw();
 
 		//knock jacks off of the wall
-    setOmniPowers(0, -slow, 0);
+    setOmniPowers(0, slow, 0);
     sleep(100);
     setOmniPowers(-verySlow, 0, 0);
-    knockJacksOff();
+    knockJacksOff();*/
 
 }
 
