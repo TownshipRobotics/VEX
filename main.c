@@ -68,11 +68,11 @@ int * getOmniPowers(int x, int y, int z)
     float rotPer = 1.0-abs(z)/127.0;
 
     // The "distance" of joystick from center 0 <= d < 127
-    int d = sqrt(pow(x, 2) + pow(y, 2));
+    int d = sqrt(pow(-x, 2) + pow(y, 2));
 
     // The angle 0 <= A < 8 of the joystick in relation to origin
     // A = 0 is to the right
-    float A = (1.27323954474 * atan2(y, x)+8)%8;
+    float A = (1.27323954474 * atan2(y, -x)+8)%8;
 
     // Too long to explain in a comment >.>
     // (Ask me if you want an explanation)
@@ -122,7 +122,7 @@ void setOmniPowers(int x, int y, int z)
 void updateOmni()
 {
     // Update the omniwheel powers to the vexRT powers
-    setOmniPowers(curve(-vexRT[Ch4]), curve(vexRT[Ch3]), curve(vexRT[Ch1]));
+    setOmniPowers(curve(vexRT[Ch4]), curve(vexRT[Ch3]), curve(vexRT[Ch1]));
 }
 
 //**********************************
@@ -153,7 +153,7 @@ void updateArm()
     		power += 64;
 
     // Compensate for gravity using potentiometer readings
-    power += roundF(16-SensorValue[pot]/128.0);
+    //power += roundF(18-SensorValue[pot]/128.0);
 
     // Set motors to proper powers
     raiseArm(power);
@@ -206,7 +206,7 @@ void knockJacksOff()
 // autonomous code for right side of arena
 void rightAutoPeriod()
 {
-    // Go forward to push jack under wall
+    /*// Go forward to push jack under wall
     setOmniPowers(0, fast, 0);
     sleep(2000);
     setOmniPowers(0, 0, 0);
@@ -221,27 +221,41 @@ void rightAutoPeriod()
     // Raise arm to knock off jack
     raiseArm(medium);
     sleep(3500);
-    raiseArm(10);
+    raiseArm(10);*/
 
-
-    /*
-    // Raise arm
-    raiseArm(fast);
-    // wait
-    sleep(normal);
-    // stop motors
-    raiseArm(0);
-
-    //move to wall
+    // Go forward to push jack under wall
     setOmniPowers(0, fast, 0);
-    sleep(1500);
-    setOmniPowers(0,0,0);
-
-		//knock jacks off of the wall
-    setOmniPowers(0, fast, 0);
-    sleep(200);
+    sleep(2000);
     setOmniPowers(0, 0, 0);
-    knockJacksOff();*/
+    sleep(100);
+    // Go backwards to give robot some space
+    setOmniPowers(0, -medium, 0);
+    sleep(500);
+
+    // Turn 180
+    setOmniPowers(0, 0, medium);
+    sleep(1000);
+    setOmniPowers(0, 0, 0);
+
+    // Raise arm to knock off jack
+    raiseArm(medium);
+    sleep(2800);
+    raiseArm(5);
+
+    for(int i = 0; i < 5; i++) {
+
+        raiseArm(-medium);
+        sleep(500);
+        raiseArm(0);
+
+        setOmniPowers(medium, 0, 0);
+        sleep(800);
+        setOmniPowers(0, 0, 0);
+
+        raiseArm(medium);
+        sleep(800);
+        raiseArm(0);
+    }
 }
 
 // autonomous code for left side of arena
@@ -249,45 +263,37 @@ void leftAutoPeriod()
 {
     // Go forward to push jack under wall
     setOmniPowers(0, fast, 0);
-    sleep(2000);
+    sleep(1500);
     setOmniPowers(0, 0, 0);
     sleep(100);
     // Go backwards to give robot some space
     setOmniPowers(0, -medium, 0);
-    sleep(500);
+    sleep(300);
+
     // Turn 180
     setOmniPowers(0, 0, medium);
-    sleep(1100);
+    sleep(900);
     setOmniPowers(0, 0, 0);
+
     // Raise arm to knock off jack
     raiseArm(medium);
-    sleep(3500);
-    raiseArm(10);
+    sleep(2800);
+    raiseArm(5);
 
-    /*
-    // Raise arm
-    raiseArm(fast);
-    // wait
-    sleep(normal);
-    // stop motors
-    raiseArm(0);
+    for(int i = 0; i < 5; i++) {
 
-    //move to wall
-    setOmniPowers(0, fast, 0);
-    sleep(1500);
-    setOmniPowers(0, 0, 0);
+        raiseArm(-medium);
+        sleep(500);
+        raiseArm(0);
 
-    //drop jack
-    setOmniPowers(0, 0, medium);
-    sleep(uTurn);
-    openClaw();
+        setOmniPowers(-medium, 0, 0);
+        sleep(800);
+        setOmniPowers(0, 0, 0);
 
-		//knock jacks off of the wall
-    setOmniPowers(0, slow, 0);
-    sleep(100);
-    setOmniPowers(-verySlow, 0, 0);
-    knockJacksOff();*/
-
+        raiseArm(medium);
+        sleep(1000);
+        raiseArm(0);
+    }
 }
 
 //**********************************
@@ -298,7 +304,7 @@ void pre_auton() {
 }
 
 task autonomous() {
-    rightAutoPeriod();
+    leftAutoPeriod();
 }
 
 task usercontrol()
